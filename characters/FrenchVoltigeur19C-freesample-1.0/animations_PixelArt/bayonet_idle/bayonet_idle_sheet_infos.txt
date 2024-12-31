@@ -1,0 +1,6 @@
+animation=bayonet_idle
+columns=6
+rows=4
+framecount=24
+framewidth=43
+frameheight=43

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Moves with Arrow Keys</title>
+  <style>
+    body {
+      margin: top 1px;
+      margin-right: auto;
+      overflow: hidden;
+      background-color: white;
+    } 
+    .character {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 50px; /* Set initial top position */
+      left: 50px; /* Set initial left position */
+      transition: transform 0.1s ease, background-image 0.1s ease;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: url('hunter-front.png'); /* Default front-facing image */
+    }
+  </style>
+</head>
+<body>
+  <div class="character" id="character"></div>
+  <script>
+    const character = document.getElementById('character');
+    let x = 50; // Initial horizontal position
+    let y = 50; // Initial vertical position
+    const speed = 10;
+
+    // Ensure character stays within the viewport
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    // Move the character based on arrow key input
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          y -= speed;
+          character.style.backgroundImage ="url('hunter-front.png')"; // front-facing image
+          break;
+        case 'ArrowDown':
+          y += speed;
+          character.style.backgroundImage = "url('hunter-back.png')";// back -facing image
+          break;
+        case 'ArrowLeft':
+          x -= speed;
+          character.style.backgroundImage = "url('hunter-left.png')"; // Left-facing image
+          break;
+        case 'ArrowRight':
+          x += speed;
+          character.style.backgroundImage = "url('hunter-right.png')"; // Right-facing image
+          break;
+      }
+
+      // Clamp the character position to stay within the viewport
+      x = clamp(x, 0, window.innerWidth - character.offsetWidth);
+      y = clamp(y, 0, window.innerHeight - character.offsetHeight);
+
+      character.style.left = `${x}px`;
+      character.style.top = `${y}px`;
+    });
+  </script>
+</body>
+</html>

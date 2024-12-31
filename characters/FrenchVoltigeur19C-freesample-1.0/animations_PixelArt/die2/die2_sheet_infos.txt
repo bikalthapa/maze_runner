@@ -1,0 +1,6 @@
+animation=die2
+columns=8
+rows=6
+framecount=48
+framewidth=45
+frameheight=50

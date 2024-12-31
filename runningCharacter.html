@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprite Sheet Animation</title>
+    <style>
+        canvas {
+            background-color: white;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script>
+        let columnToShow = 0;
+        let animationId;
+
+        function animateSprite(ctx, spriteSheet, frameWidth, frameHeight, totalFrames, frameRate, scale) {
+            let currentFrame = 0;
+            const spriteSheetWidth = spriteSheet.width;
+            const spriteSheetHeight = spriteSheet.height;
+            const columns = spriteSheetWidth / frameWidth;
+
+            function drawFrame() {
+                const column = columnToShow;
+                const row = Math.floor(currentFrame / columns);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(
+                    spriteSheet,
+                    column * frameWidth,
+                    row * frameHeight,
+                    frameWidth,
+                    frameHeight,
+                    0,
+                    0,
+                    frameWidth * scale,
+                    frameHeight * scale
+                );
+
+                // Add border
+                ctx.strokeStyle = 'black'; // Set border color
+                ctx.lineWidth = 2; // Set border width
+                ctx.strokeRect(0, 0, frameWidth * scale, frameHeight * scale); // Draw border
+
+                currentFrame = (currentFrame + 1) % totalFrames;
+                animationId = requestAnimationFrame(drawFrame);
+            }
+
+            animationId = requestAnimationFrame(drawFrame);
+        }
+
+        function stopAnimation() {
+            cancelAnimationFrame(animationId);
+        }
+
+        // Event listener for arrow keys
+        document.addEventListener('keydown', function(event) {
+            switch (event.key) {
+                case 'ArrowDown':
+                    columnToShow = 0; // Change to the column for the up direction
+                    break;
+                case 'ArrowLeft':
+                    columnToShow = 1; // Change to the column for the right direction
+                    break;
+                case 'ArrowUp':
+                    columnToShow = 2; // Change to the column for the down direction
+                    break;
+                case 'ArrowRight':
+                    columnToShow = 3; // Change to the column for the left direction
+                    break;
+            }
+            if (!animationId) {
+                animateSprite(ctx, spriteSheet, 48, 48, 16, 10, 2);
+            }
+        });
+
+        document.addEventListener('keyup', function(event) {
+            stopAnimation();
+            animationId = null;
+        });
+
+        // Usage example:
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const spriteSheet = new Image();
+        spriteSheet.src = 'characters/george.png'; // Replace with the actual path to your sprite sheet
+
+        spriteSheet.onload = function() {
+            animateSprite(ctx, spriteSheet, 48, 48, 16, 10, 0.7); // Adjust frameWidth, frameHeight, totalFrames, frameRate, and scale as needed
+        };
+    </script>
+</body>
+</html>

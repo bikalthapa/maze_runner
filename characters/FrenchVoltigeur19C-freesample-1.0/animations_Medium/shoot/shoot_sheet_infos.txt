@@ -1,0 +1,6 @@
+animation=shoot
+columns=4
+rows=3
+framecount=12
+framewidth=123
+frameheight=109

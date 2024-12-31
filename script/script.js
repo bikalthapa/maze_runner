@@ -13,7 +13,7 @@ ctx.scale(dpr, dpr);
 // Game data
 let rowlen = 10;
 let collen = 10;
-let cellWidth = 10;
+let cellWidth = 20;
 let startPos = { x: 7, y: 7 };
 let lineColor = "blue";
 let lineWidth = 2;
@@ -200,7 +200,7 @@ function removeLineBetwen(currCell, nextCell) {
         4.Mark the chosen cell as visited and push it to the stack
 */
 
-function generateMaze(startIndx) {
+function generateMazeDFS(startIndx) {
     let stack = []; // Stack to keep track of the visited cells
     let currentIndx = startIndx;
     let currentCell = board[currentIndx.x][currentIndx.y];
@@ -252,61 +252,18 @@ function generateMaze(startIndx) {
     console.log("Longest Path:", longestPath);
 
     // Indicate the destination (the farthest point)
-    indicateCell(destinationCell, 'red'); // Indicate the destination cell with a red color
+    indicateDestination(destinationCell, 'red'); // Indicate the destination cell with a red color
 }
 
+function generateMazePRIMS(startIndx){
+
+}
 // Function to indicate a specific cell (destination) on the canvas
-function indicateCell(cell, color) {
+function indicateDestination(cell, color) {
     ctx.fillStyle = color;
     ctx.fillRect(cell.pos.x + cell.lineWidth / 2, cell.pos.y + cell.lineWidth / 2, cell.width - cell.lineWidth, cell.height - cell.lineWidth);
     console.log("Destination Cell:", cell.pos); // Log the destination cell's position
 }
-
-
-
-// function generateMaze(startIndx) {
-//     let stack = []; // Stack to keep track of the visited cells
-//     let currentIndx = startIndx;
-//     let currentCell = board[currentIndx.x][currentIndx.y];
-
-//     // Push the start cell to the stack and mark it as visited
-//     stack.push(currentCell);
-//     currentCell.isVisited = true;
-
-//     while (stack.length > 0) {
-//         currentCell = stack[stack.length - 1]; // Peek at the top of the stack
-
-//         // Find all unvisited neighbors of the current cell
-//         currentCell.findUnvisitedNeighbour(rowlen, collen);
-
-//         // Get the list of unvisited neighbors
-//         let unvisitedNeighbors = [];
-//         for (let i = 0; i < currentCell.neighbour.selectOrder.length; i++) {
-//             let neighborIndex = currentCell.neighbour.selectOrder[i];
-//             let neighbor = currentCell.neighbour.pos[neighborIndex];
-//             if (neighbor && !board[neighbor.x][neighbor.y].isVisited) {
-//                 unvisitedNeighbors.push(neighbor);
-//             }
-//         }
-
-//         if (unvisitedNeighbors.length > 0) {
-//             // Randomly choose one of the unvisited neighbors
-//             let randomNeighbor = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-//             let nextCell = board[randomNeighbor.x][randomNeighbor.y];
-
-//             // Remove the wall between current cell and the chosen neighbor
-//             removeLineBetwen(currentCell, nextCell);
-
-//             // Mark the chosen neighbor as visited and push it to the stack
-//             nextCell.isVisited = true;
-//             stack.push(nextCell); // Move to the next cell
-//         } else {
-//             // If no unvisited neighbors, backtrack by popping the stack
-//             stack.pop();
-//         }
-//     }
-// }
-
 
 
 
@@ -320,4 +277,5 @@ board[0][0].indicateCell(ctx, "red");
 // board[0][0].findUnvisitedNeighbour(rowlen, collen);
 
 // console.log(board[0][0].neighbour);
-generateMaze({ x: 0, y: 0 });
+generateMazeDFS({ x: 0, y: 0 });
+// generateMazePRIMS({ x: 0, y: 0 });

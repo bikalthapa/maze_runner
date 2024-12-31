@@ -1,0 +1,6 @@
+animation=bayonet_charge
+columns=6
+rows=4
+framecount=24
+framewidth=46
+frameheight=46

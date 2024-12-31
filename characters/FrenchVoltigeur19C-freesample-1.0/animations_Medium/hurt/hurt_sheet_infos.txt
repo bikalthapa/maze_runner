@@ -1,0 +1,6 @@
+animation=hurt
+columns=5
+rows=4
+framecount=20
+framewidth=85
+frameheight=108

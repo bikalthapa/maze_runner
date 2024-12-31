@@ -1,0 +1,6 @@
+animation=walk_careful
+columns=6
+rows=5
+framecount=30
+framewidth=80
+frameheight=114

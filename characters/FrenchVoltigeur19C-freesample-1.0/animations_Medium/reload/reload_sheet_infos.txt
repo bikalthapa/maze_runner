@@ -1,0 +1,6 @@
+animation=reload
+columns=4
+rows=4
+framecount=16
+framewidth=50
+frameheight=126

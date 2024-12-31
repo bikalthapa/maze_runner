@@ -1,0 +1,6 @@
+animation=idle
+columns=6
+rows=6
+framecount=36
+framewidth=86
+frameheight=108

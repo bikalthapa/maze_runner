@@ -1,0 +1,6 @@
+animation=bayonet_attack
+columns=6
+rows=3
+framecount=18
+framewidth=58
+frameheight=44
