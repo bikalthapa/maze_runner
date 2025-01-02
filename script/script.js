@@ -318,9 +318,56 @@ This algorithm is a randomized version of Prim's algorithm.
         2. Add the neighboring walls of the cell to the wall list.
     2. Remove the wall from the list.
 */
-function generateMazePRIMS(startIndx){
+function generateMazePRIMS(startIndx) {
     let startCell = board[startIndx.x][startIndx.y];
-    
+    let walls = [];
+    let directions = [
+        { x: 0, y: -1 }, // up
+        { x: 1, y: 0 },  // right
+        { x: 0, y: 1 },  // down
+        { x: -1, y: 0 }  // left
+    ];
+
+    // Mark the start cell as part of the maze
+    startCell.visited = true;
+
+    // Add the walls of the start cell to the wall list
+    directions.forEach(dir => {
+        let newX = startIndx.x + dir.x;
+        let newY = startIndx.y + dir.y;
+        if (newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length) {
+            walls.push({ from: startIndx, to: { x: newX, y: newY } });
+        }
+    });
+
+    while (walls.length > 0) {
+        // Pick a random wall from the list
+        let randomWallIndex = Math.floor(Math.random() * walls.length);
+        let wall = walls[randomWallIndex];
+        let fromCell = board[wall.from.x][wall.from.y];
+        let toCell = board[wall.to.x][wall.to.y];
+
+        // If only one of the cells that the wall divides is visited
+        if (fromCell.visited !== toCell.visited) {
+            // Make the wall a passage and mark the unvisited cell as part of the maze
+            toCell.visited = true;
+
+            // Remove the wall between fromCell and toCell
+            removeLineBetwen(board[wall.from.x][wall.from.y], board[wall.to.x][wall.to.y]);
+
+            // Add the neighboring walls of the cell to the wall list
+            directions.forEach(dir => {
+                let newX = wall.to.x + dir.x;
+                let newY = wall.to.y + dir.y;
+                if (newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length) {
+                    walls.push({ from: wall.to, to: { x: newX, y: newY } });
+                }
+            });
+        }
+
+        // Remove the wall from the list
+        walls.splice(randomWallIndex, 1);
+    }
 }
 // Function to indicate a specific cell (destination) on the canvas
 function indicateDestination(cell, color) {
@@ -417,5 +464,5 @@ board[0][0].indicateCell(ctx, "red");
 // board[0][0].findUnvisitedNeighbour(rowlen, collen);
 
 // console.log(board[0][0].neighbour);
-generateMazeDFS({ x: 0, y: 0 });
-// generateMazePRIMS({ x: 0, y: 0 });
+// generateMazeDFS({ x: 0, y: 0 });
+generateMazePRIMS({ x: 0, y: 0 });
